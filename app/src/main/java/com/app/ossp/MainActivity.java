@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
+    private String TAG = "##HH";
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);        // 화면에 보일 calendar(=recyclerview)의 Adapter(현재 month의 일 수들, 클릭리스너)를 설정.
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);       // calendar(=recyclerview)의 규격을 정함. spanCount = 일주일 이므로 7을 설정.
-        calendarRecyclerView.setLayoutManager(layoutManager);
-        calendarRecyclerView.setAdapter(calendarAdapter);
+        calendarRecyclerView.setLayoutManager(layoutManager);           // recyclerview 의 layoutManager 연결
+        calendarRecyclerView.setAdapter(calendarAdapter);           // recyclerview 의 adapter 연결
     }
 
     /**
@@ -78,21 +79,42 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         return daysInMonthArray;
     }
 
+    /**
+     * @param date
+     * @return
+     *
+     * 지정된 패턴을 사용하여 날짜, 시간 개체를 처리하도록 도와주는 포맷터(Formatter)
+     *
+     */
     private String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
     }
 
+    /**
+     * 이전 달을 보기 위한 메서드
+     * @param view
+     */
     public void previousMonthAction(View view) {
         selectedDate = selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    /**
+     * 다음 달을 보기 위한 메서드
+     * @param view
+     */
     public void nextMonthAction(View view) {
         selectedDate = selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    /**
+     *
+     * 아이템을 클릭시 클릭한 날짜를 보여주는 onClick
+     * @param position
+     * @param dayText
+     */
     @Override
     public void onItemClick(int position, String dayText) {
         if (!dayText.equals("")) {
