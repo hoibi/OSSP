@@ -20,7 +20,7 @@ public abstract class DataBase extends RoomDatabase {
     public synchronized static DataBase getAppDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, "calendar_db")
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration()       // 스키마(Database) 버전 변경 가능
                     .build();
         }
         return INSTANCE;
