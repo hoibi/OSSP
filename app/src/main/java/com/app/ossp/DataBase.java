@@ -11,7 +11,6 @@ import androidx.room.RoomDatabase;
  * 데이터 베이스 사용은 되도록 비동기에서 실행을 권장.
  */
 
-
 @Database(entities = {DataTable.class}, version = 1)
 public abstract class DataBase extends RoomDatabase {
     private static DataBase INSTANCE = null;        // 데이터베이스변수
