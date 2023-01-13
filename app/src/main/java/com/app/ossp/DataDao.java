@@ -14,7 +14,7 @@ import java.util.List;
 // 기존의 sqLite에 비해 좀 더 간편하고 쉽게 만들어서 안드로이드 앱상에 내부 db를 구축해서 여러가지 데이터를 관리할 수  있도록
 
 //  실질적으로 삽입이나 또는 삭제, 조회, 업데이트, 수정 이런것들(행위)를 할 인터페이스를 만들어야 합니다.
-// 그것을 가능하게 하는 것이 Dao(data access object) 객체
+//  그것을 가능하게 하는 것이 Dao(data access object) 객체
 
 // room dao 인더페이스 명시하기 위해 작성
 @Dao
