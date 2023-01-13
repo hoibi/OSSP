@@ -31,7 +31,7 @@ public interface DataDao {
     void deleteAll();
 
     //roomdb에서 데이터를 전체다 불러올 수 있는 쿼리문사용
-    // DataTable로부터 SELECT(조회) *전체 컬럼을
+    // DataTable로부터 SELECT(조회) *:전체 컬럼을
     @Query("SELECT * FROM DataTable")
     List<DataTable> getAll();
 

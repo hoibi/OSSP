@@ -19,7 +19,7 @@ public abstract class DataBase extends RoomDatabase {
 
     public synchronized static DataBase getAppDatabase(Context context) {
         if (INSTANCE == null) {
-            // 데이터 베이스 삽입
+            //  데이터 베이스 삽입
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, "calendar_db")
                     .fallbackToDestructiveMigration()       // 스키마(Database) 버전 변경 가능
                     .build();
