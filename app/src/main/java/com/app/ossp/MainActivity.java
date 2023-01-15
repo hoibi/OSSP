@@ -14,8 +14,8 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-//액티비티 컴포넌트는 이름과 같이 사용자가 어떠한 활동을 할 때 실행되는 컴포넌트이다.
-//UI를 제공하여 사용자와 상호작용을 하며, class에서 activity를 상속받아 사용할 수 있다
+// 액티비티 컴포넌트는 이름과 같이 사용자가 어떠한 활동을 할 때 실행되는 컴포넌트이다.
+// UI를 제공하여 사용자와 상호작용을 하며, class에서 activity를 상속받아 사용할 수 있다
 //
 //AppCompatActivity
 //액티비티는 여러 종류가 존재. 상속의 구조를 가진다
