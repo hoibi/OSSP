@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+//
 public class DialogMemo extends Dialog {
     public DlgResult mCallback;
 
