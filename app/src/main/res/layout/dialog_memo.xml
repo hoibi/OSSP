@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_title_memo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Memo"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="22sp"
+        android:textColor="#d4a373"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <EditText
+        android:id="@+id/ed_memo_contents"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:backgroundTint="#faedcd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_memo"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_cancel_memo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#faedcd"
+        android:textColor="#d4a373"
+        app:layout_constraintEnd_toStartOf="@id/bt_create_memo"
+        app:layout_constraintTop_toBottomOf="@id/ed_memo_contents"
+        android:layout_marginEnd="20dp"
+        android:text="cancel"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_create_memo"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#faedcd"
+        android:textColor="#d4a373"
+        app:layout_constraintEnd_toEndOf="@id/ed_memo_contents"
+        app:layout_constraintTop_toBottomOf="@id/ed_memo_contents"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="create"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

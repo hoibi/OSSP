@@ -3,9 +3,15 @@ package com.app.ossp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +20,8 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-// 액티비티 컴포넌트는 이름과 같이 사용자가 어떠한 활동을 할 때 실행되는 컴포넌트이다.
-// UI를 제공하여 사용자와 상호작용을 하며, class에서 activity를 상속받아 사용할 수 있다
+//액티비티 컴포넌트는 이름과 같이 사용자가 어떠한 활동을 할 때 실행되는 컴포넌트이다.
+//UI를 제공하여 사용자와 상호작용을 하며, class에서 activity를 상속받아 사용할 수 있다
 //
 //AppCompatActivity
 //액티비티는 여러 종류가 존재. 상속의 구조를 가진다
@@ -36,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     // 한 화면에 표시되기 힘든 많은 수의 데이터를 스크롤 가능한 리스트로 표시해주는 위젯"입니다.
 
     private LocalDate selectedDate;                 // 날짜만 표시합니다. 형식은 YYYY-MM-DD 입니다!
+
+
+    private DataBase db;
+    private DataTable dataTable;
+    private ImageView listImage;
 
 
     //onCreate()는 콜백 메소드이며 Activity의 생명주기에서 생성 단계에 한번 실행되는 메소드이다.
@@ -62,6 +73,14 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         // 위 두개의 짬뽕입니다. 형식은 YYYY-MM-DDTHH:mm:ss 입니다! (공백을 T로 표기하는군요!)
         selectedDate = LocalDate.now();                     // 로컬 컴퓨터의 현재 날짜 정보를 저장한 LocalDate 객체를 리턴
         setMonthView();
+
+        db = DataBase.getAppDatabase(this);
+
+        listImage = findViewById(R.id.im_list);
+        listImage.setOnClickListener(v -> {
+        });
+
+
     }
 
     /**
@@ -75,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * 현재 view에 보이는 month에 따라서 그 month의 일 수를 화면에 뿌려주는 메서드
-     *
+     * <p>
      * 뷰(View)
      * 뷰는 안드로이드 기본 화면을 구성하는 모든 기본 화면의 구성요소이다.
      */
@@ -91,10 +110,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * @param date 는 현재 날짜를 받는다.
-     * @return
-     *
-     * 각 Month의 일 수를 리턴 해주는 메서드
-     *
+     * @return 각 Month의 일 수를 리턴 해주는 메서드
+     * <p>
      * ex) 2022년 12월의 일 수
      * -> [, , , , 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, , , , , , , ]
      */
@@ -121,10 +138,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * @param date
-     * @return
-     *
-     * 지정된 패턴을 사용하여 날짜, 시간 개체를 처리하도록 도와주는 포맷터(Formatter)
-     *
+     * @return 지정된 패턴을 사용하여 날짜, 시간 개체를 처리하도록 도와주는 포맷터(Formatter)
      */
     private String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");         // 날짜 형식을 yyyy-mm-dd에서 MMMM yyyy로 변경
@@ -133,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * 이전 달을 보기 위한 메서드
+     *
      * @param view
      */
     public void previousMonthAction(View view) {
@@ -142,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * 다음 달을 보기 위한 메서드
+     *
      * @param view
      */
     public void nextMonthAction(View view) {
@@ -150,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     /**
-     *
      * 아이템을 클릭시 클릭한 날짜를 보여주는 onClick
+     *
      * @param position
      * @param dayText
      */
@@ -165,6 +181,59 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             //첫 번째 인자는 현재 프로세스의 Context 정보
             //두 번째 인자는 Toast 메시지로 사용자에게 보여줄 문자열을 넘겨줍니다
             //세 번째 길게 Toast 메시지를 표시합니다.
+
+            DialogMemo dlgMemo = new DialogMemo(this, new DialogMemo.DlgResult() {
+                @Override
+                public void onClickBtCreate(String day, String contents) {
+                    dataTable = new DataTable();
+                    dataTable.setContents(day + "\n\n" + contents);
+
+                    InsertMemo saveData = new InsertMemo();
+                    Thread i = new Thread(saveData);
+                    i.start();
+                }
+            });
+
+            dlgMemo.setContentView(R.layout.dialog_memo);
+            dlgMemo.show();
+
+            Button btCreate = dlgMemo.findViewById(R.id.bt_create_memo);
+            Button btCancel = dlgMemo.findViewById(R.id.bt_cancel_memo);
+            EditText memoContext = dlgMemo.findViewById(R.id.ed_memo_contents);
+
+
+            btCreate.setOnClickListener(v -> {
+                dlgMemo.mCallback.onClickBtCreate((dayText + " " + monthYearFromDate(selectedDate)), memoContext.getText().toString());
+                dlgMemo.dismiss();
+
+                Toast.makeText(this,"Created your message!!",Toast.LENGTH_SHORT).show();
+            });
+
+            btCancel.setOnClickListener(v -> {
+                dlgMemo.dismiss();
+            });
+
+        }
+    }
+
+    public class InsertMemo implements Runnable {
+        @Override
+        public void run() {
+            db.dataDao().insert(dataTable);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
