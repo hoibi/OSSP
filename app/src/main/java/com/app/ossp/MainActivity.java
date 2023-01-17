@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private LocalDate selectedDate;                 // 날짜만 표시합니다. 형식은 YYYY-MM-DD 입니다!
 
 
-    private DataBase db;
-    private DataTable dataTable;
-    private ImageView listImage;
+    private DataBase db;            // roomDb의 전역변수
+    private DataTable dataTable;            //DataTable의 전역변수
+    private ImageView listImage;            // MemoActivity로 넘어가기 위한 전역변수.
 
 
     //onCreate()는 콜백 메소드이며 Activity의 생명주기에서 생성 단계에 한번 실행되는 메소드이다.
@@ -74,10 +74,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         selectedDate = LocalDate.now();                     // 로컬 컴퓨터의 현재 날짜 정보를 저장한 LocalDate 객체를 리턴
         setMonthView();
 
-        db = DataBase.getAppDatabase(this);
+        db = DataBase.getAppDatabase(this);             // roomdb를 싱글톤으로 생성하여 초기화를 한번만 시키면 어느곳에서 사용해도 재사용하여 메모리를 아낄 수 있다.
 
         listImage = findViewById(R.id.im_list);
-        listImage.setOnClickListener(v -> {
+        listImage.setOnClickListener(v -> {         // 우측 상단의 list이미지 클릭시 memoActivity로 화면이 전환된다.
+            Intent i = new Intent(this,MemoActivity.class);
+            startActivity(i);       //화면을 전환시키는 코드.
         });
 
 
@@ -182,26 +184,26 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             //두 번째 인자는 Toast 메시지로 사용자에게 보여줄 문자열을 넘겨줍니다
             //세 번째 길게 Toast 메시지를 표시합니다.
 
-            DialogMemo dlgMemo = new DialogMemo(this, new DialogMemo.DlgResult() {
+            DialogMemo dlgMemo = new DialogMemo(this, new DialogMemo.DlgResult() {          // 메모를 하기 위해서 DialogMemo 클래스로 초기화 진행
                 @Override
                 public void onClickBtCreate(String day, String contents) {
-                    dataTable = new DataTable();
-                    dataTable.setContents(day + "\n\n" + contents);
+                    dataTable = new DataTable();            // create버튼 클릭시 dataTabled에 데이터를 담기위해서 초기화 진행
+                    dataTable.setContents(day + "\n\n" + contents);     // 오늘 날짜와 메모한 내용을 dataTable에 기록한다.
 
-                    InsertMemo saveData = new InsertMemo();
+                    InsertMemo saveData = new InsertMemo();         // roomdb의 데이터 가공은 메인쓰레드에서 진행할 수 없고 별도의 쓰레드가 필요하다. (중요)
                     Thread i = new Thread(saveData);
-                    i.start();
+                    i.start();          // Thread를 실행시킴.
                 }
             });
 
-            dlgMemo.setContentView(R.layout.dialog_memo);
-            dlgMemo.show();
+            dlgMemo.setContentView(R.layout.dialog_memo);       //팝업창의 Layout을 연결시킴.
+            dlgMemo.show();     //실질적으로 팝업창을 볼 수있게 해주는 메서드 show()
 
             Button btCreate = dlgMemo.findViewById(R.id.bt_create_memo);
             Button btCancel = dlgMemo.findViewById(R.id.bt_cancel_memo);
             EditText memoContext = dlgMemo.findViewById(R.id.ed_memo_contents);
 
-
+            //create 버튼을 클릭하였을 경우 콜백이 발생하여 현재의 날짜와 방금 기록한 메모가 콜백으로 넘어간다.
             btCreate.setOnClickListener(v -> {
                 dlgMemo.mCallback.onClickBtCreate((dayText + " " + monthYearFromDate(selectedDate)), memoContext.getText().toString());
                 dlgMemo.dismiss();
@@ -210,12 +212,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             });
 
             btCancel.setOnClickListener(v -> {
-                dlgMemo.dismiss();
+                dlgMemo.dismiss();      //팝업창을 닫을 수 있는 메서드. dismiss()
             });
 
         }
     }
 
+    //데이터를 주입할때는 별도의 쓰레드가 필요하다.
     public class InsertMemo implements Runnable {
         @Override
         public void run() {
