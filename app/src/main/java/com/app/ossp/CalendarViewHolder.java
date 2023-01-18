@@ -40,9 +40,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         //시스템에서 내가 클릭한 것에 대한 반응을 다시 나에게 알려주는 것을 말한다.
         //쉽게 말해 "내가 클릭하면, 시스템이 그에 대한 반응을 해준다" 라고 말할 수 있다.
 
-
         //onItemClick() 이라는 메소드는 ListView(리스트뷰)의 한 항목이 클릭 되었을때, 콜백되어 호출 된다.
-
 
         //  item 클릭시 callback을 받기 위해서 viewholder에 itemView.setOnClickListener(this); 생성
         //  아이탬의 위치를 알기 위해서 어댑터의포지션과 아이탬의 날짜를 클릭리스너의 매개변수로 넣어준다.

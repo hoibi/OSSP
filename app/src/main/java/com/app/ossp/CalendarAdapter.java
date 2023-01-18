@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 /**
- * Calendar RecyclerView를 화면에 뿌려주기 위한 Adapter
+ *  Calendar RecyclerView를 화면에 뿌려주기 위한 Adapter
  *
  * 주요 기능
  * -> 아이탬 클릭시 화면에 문구를 띄우기 위한 리스너, 뷰의 초기화
