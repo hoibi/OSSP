@@ -10,10 +10,15 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-//
-public class DialogMemo extends Dialog {
-    public DlgResult mCallback;
 
+/**
+ * Dialog는 대화상자
+ */
+public class DialogMemo extends Dialog {
+    public DlgResult mCallback;     // mCallback???
+
+    // @NonNull 널을 허용하지 않겠다
+    //시스템이 관리하고 있는 액티비티, 어플리케이션의 정보를 얻기 위해 사용
     public DialogMemo(@NonNull Context context,DlgResult callback) {
         super(context);
 
@@ -26,6 +31,7 @@ public class DialogMemo extends Dialog {
         dlg.setCancelable(false);
     }
 
+    //
     interface DlgResult {
         void onClickBtCreate(String day, String contents);
     }

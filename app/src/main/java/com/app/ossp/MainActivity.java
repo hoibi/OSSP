@@ -31,7 +31,7 @@ import java.util.ArrayList;
 //setSupportActionBar(Toolbar) API를 사용하여 action item, navigation mode 등을 포함하는 action bar를 지원합니다.
 //Theme.AppCompat.DayNight 테마를 사용하며 AppCompatDelegate.setDefaultNightMode(int) API를 사용하여 다크 모드를 지원합니다.
 //getDrawerToggleDelegate() API를 사용하여 DrawerLayout과 통합합니다.
-//⚠️ 이 클래스를 확장하는 모든 액티비티는 AppCompat 또는 해당 테마를 확장하는 테마를 사용해야 합니다 .
+//⚠️ 이 클래스를 확장하는 모든 액티비티는 AppCompat 또는 해당 테마를 확장하는 테마를 사용해야 합니다.
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
     private String TAG = "##HH";
     private TextView monthYearText;                 //TextView는 안드로이드 UI를 구성함에 있어 화면에 텍스트를 표시하는 기능을 담당

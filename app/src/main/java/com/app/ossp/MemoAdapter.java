@@ -40,7 +40,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoViewHolder> {
 
     @Override
     public int getItemCount() {
-        return memoList.size();         //roomdb에 있던 모든 memo를 담은 list의 크기만큼 화면에 칸수가 결정된다.
+        return memoList.size();         // roomdb에 있던 모든 memo를 담은 list의 크기만큼 화면에 칸수가 결정된다.
     }
 
 
